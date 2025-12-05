@@ -15,7 +15,7 @@ interface ScheduleDatabaseDao {
     @Query("select * from schedule where _id = :id")
     fun getScheduleById(id: Int): Flow<Schedule>
 
-    @Query("select * from schedule where studentId = :studentId")
+    @Query("select * from schedule where student_id = :studentId")
     fun getSchedulesForStudent(studentId: Int): Flow<List<Schedule>>
 
     @Query("delete from schedule")
