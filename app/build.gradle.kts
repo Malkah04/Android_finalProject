@@ -68,8 +68,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     // Room Dependencies
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    ksp("androidx.room:room-compiler:$room_version")
 
 }

@@ -20,8 +20,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FinalProjecttazkartM3ajTheme {
-                val navController = rememberNavController()
-                AppNavGraph(navController)
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Greeting(
+//                        name = "",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//
+//                }
             }
         }
     }
