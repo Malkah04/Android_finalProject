@@ -8,8 +8,6 @@ interface ScheduleRepository {
 
     fun getScheduleById(id: Int): Flow<Schedule>
 
-    fun getSchedulesForStudent(studentId: Int): Flow<List<Schedule>>
-
     suspend fun deleteAllSchedules()
 
     suspend fun addSchedule(schedule: Schedule)
@@ -17,4 +15,9 @@ interface ScheduleRepository {
     suspend fun updateSchedule(schedule: Schedule)
 
     suspend fun deleteSchedule(id: Int)
+
+    fun SearchByCenterNameInSchedule(centerName:String) : Flow<List<Schedule>>
+    fun SearchByLocationInSchedule(location :String) :Flow<List<Schedule>>
+    fun SearchBySubjectInSchedule(subjectName:String) : Flow<List<Schedule>>
+    fun SearchByTeacherNameInSchedule(teacherName:String): Flow<List<Schedule>>
 }

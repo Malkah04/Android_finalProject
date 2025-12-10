@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.finalproject_tazkartm3aj.model.Schedule
 import kotlinx.coroutines.flow.Flow
+import javax.security.auth.Subject
 
 @Dao
 interface ScheduleDatabaseDao {
@@ -14,9 +15,6 @@ interface ScheduleDatabaseDao {
 
     @Query("select * from schedule where _id = :id")
     fun getScheduleById(id: Int): Flow<Schedule>
-
-    @Query("select * from schedule where student_id = :studentId")
-    fun getSchedulesForStudent(studentId: Int): Flow<List<Schedule>>
 
     @Query("delete from schedule")
     suspend fun deleteAllSchedules()
@@ -29,6 +27,53 @@ interface ScheduleDatabaseDao {
 
     @Query("delete from schedule where _id = :id")
     suspend fun deleteSchedule(id: Int)
+
+    @Query("""
+        select
+            S.*
+        from
+            Schedule S
+        inner join
+            Teacher T
+        on
+            S.teacher_id = T._id
+        where
+            T.teacher_name like '%' || :teacherName || '%'
+    """)
+    fun SearchByTeacherNameInSchedule(teacherName:String): Flow<List<Schedule>>
+
+    @Query("select * from schedule where subject like '%' ||:subjectName || '%' ")
+    fun SearchBySubjectInSchedule(subjectName:String) : Flow<List<Schedule>>
+
+    @Query("""
+        select 
+        S.*
+        from 
+            Schedule S
+        inner join
+            Center C
+        on 
+            S.center_id =C._id
+        where
+            C.center_name like '%' || :centerName || '%'
+    """)
+    fun SearchByCenterNameInSchedule(centerName:String) : Flow<List<Schedule>>
+
+    @Query("""
+        select
+            S.*
+        from
+            Schedule S
+        inner join
+            Center C
+        on
+            S.center_id =C._id
+        where 
+            C.center_address like '%' || :location || '%'
+    """)
+    fun SearchByLocationInSchedule(location :String) :Flow<List<Schedule>>
+
+
 
 
 }
