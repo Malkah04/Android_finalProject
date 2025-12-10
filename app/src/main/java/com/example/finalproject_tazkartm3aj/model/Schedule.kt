@@ -8,9 +8,15 @@ import androidx.room.PrimaryKey
 @Entity( tableName = "Schedule",
     foreignKeys = [
         ForeignKey(
-            entity = Student::class,
+            entity = Center::class,
             parentColumns = ["_id"],
-            childColumns = ["student_id"],
+            childColumns = ["center_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = Teacher::class ,
+            parentColumns = ["_id"],
+            childColumns = ["teacher_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]
@@ -20,13 +26,16 @@ data class Schedule(
     @PrimaryKey(autoGenerate = true)
         val _id:Int=0,
 
-    @ColumnInfo(name ="student_id")
-        val studentId:Int,
+    @ColumnInfo(name ="center_id")
+        val centerId:Int,
+
+    @ColumnInfo(name = "teacher_id")
+        val teacherId :Int ,
 
     @ColumnInfo(name ="day")
         val day:String,
 
-    @ColumnInfo(name ="time")
+    @ColumnInfo(name ="lecture_time")
         val time:String,
 
     @ColumnInfo(name ="subject")

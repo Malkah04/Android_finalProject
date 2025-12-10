@@ -12,9 +12,6 @@ class OfflineScheduleRepository (
 
     override fun getScheduleById(id: Int): Flow<Schedule> = scheduleDao.getScheduleById(id)
 
-    override fun getSchedulesForStudent(studentId: Int): Flow<List<Schedule>> =
-        scheduleDao.getSchedulesForStudent(studentId)
-
     override suspend fun deleteAllSchedules() = scheduleDao.deleteAllSchedules()
 
     override suspend fun addSchedule(schedule: Schedule) = scheduleDao.addSchedule(schedule)
@@ -23,4 +20,12 @@ class OfflineScheduleRepository (
         scheduleDao.updateSchedule(schedule)
 
     override suspend fun deleteSchedule(id: Int) = scheduleDao.deleteSchedule(id)
+
+    override fun SearchByCenterNameInSchedule(centerName: String): Flow<List<Schedule>> = scheduleDao.SearchByCenterNameInSchedule(centerName)
+
+    override fun SearchByLocationInSchedule(location: String): Flow<List<Schedule>> =scheduleDao.SearchByLocationInSchedule(location)
+
+    override fun SearchBySubjectInSchedule(subjectName: String): Flow<List<Schedule>> =scheduleDao.SearchBySubjectInSchedule(subjectName)
+
+    override fun SearchByTeacherNameInSchedule(teacherName: String): Flow<List<Schedule>> =scheduleDao.SearchByTeacherNameInSchedule(teacherName)
 }
