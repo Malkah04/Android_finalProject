@@ -15,7 +15,16 @@ data class Student(
     @ColumnInfo(name ="student_phone")
     val phone:String,
 
+   @ColumnInfo(name = "student_email")
+   val email: String,
+
+   @ColumnInfo(name = "student_password")
+   val password: String,
+
     @ColumnInfo(name ="student_year")
-    val year:String
+    val year:String,
+
+    @ColumnInfo(name = "student_image")
+    val imagePath: String? = null
 
 )

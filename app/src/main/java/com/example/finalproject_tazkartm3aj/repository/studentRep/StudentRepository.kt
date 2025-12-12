@@ -15,4 +15,9 @@ interface StudentRepository {
     suspend fun updateInformationOfStudent(student: Student)
 
     suspend fun deleteStudent(id: Int)
+
+    suspend fun register(name: String, email: String, phone: String, password: String,year: String): Boolean
+    suspend fun login(email: String, password: String): Student?
+    suspend fun getStudentByEmail(email: String): Student?
+
 }

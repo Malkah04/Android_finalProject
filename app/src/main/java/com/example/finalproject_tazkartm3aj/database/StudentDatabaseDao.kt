@@ -27,4 +27,11 @@ interface StudentDatabaseDao {
 
     @Query("delete from student where _id=:id")
     suspend fun deleteStudent(id:Int)
+
+    @Query("SELECT * FROM Student WHERE student_email = :email LIMIT 1")
+    suspend fun getStudentByEmail(email: String): Student?
+
+    @Query("SELECT * FROM Student WHERE student_email = :email AND student_password = :password LIMIT 1")
+    suspend fun login(email: String, password: String): Student?
+
 }
