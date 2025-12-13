@@ -1,4 +1,4 @@
-package com.example.finalproject_tazkartm3aj.screens
+package com.example.finalproject_tazkartm3aj.allUI.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,35 +15,36 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.finalproject_tazkartm3aj.viewmodels.StudentProfileViewModel
-import com.example.finalproject_tazkartm3aj.viewmodels.StudentVMFactory
-import com.example.finalproject_tazkartm3aj.repository.studentRep.OfflineStudentRepository
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherProfileViewModel
+import com.example.finalproject_tazkartm3aj.allUI.screens.viewmodels.TeacherVMFactory
+import com.example.finalproject_tazkartm3aj.repository.teacherRep.OfflineTeacherRepository
 import com.example.finalproject_tazkartm3aj.database.dDatabase
 import androidx.compose.material3.TextField
 import kotlinx.coroutines.launch
 
 @Composable
-fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
+fun TeacherProfileScreen(teacherId: Int, modifier: Modifier = Modifier) {
+
     val context = LocalContext.current
     val db = dDatabase.getDatabase(context)
-    val repo = OfflineStudentRepository(db.studentDao())
-
-    val vm: StudentProfileViewModel = viewModel(
-        factory = StudentVMFactory(repo, studentId)
+    val repo = OfflineTeacherRepository(db.teacherDao())
+    val vm: TeacherProfileViewModel = viewModel(
+        factory = TeacherVMFactory(repo, teacherId)
     )
 
-    val student by vm.student.collectAsState()
+    val teacher by vm.teacher.collectAsState()
 
     var isEditing by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
-    var year by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
+    var subject by remember { mutableStateOf("") }
 
-    LaunchedEffect(student) {
-        student?.let {
+
+    LaunchedEffect(teacher) {
+        teacher?.let {
             name = it.name
-            year = it.year
             phone = it.phone
+            subject = it.subject
         }
     }
 
@@ -53,7 +54,7 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF0D47A1)
     ) {
-        student?.let {
+        teacher?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -114,29 +115,6 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                "Year",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 16.sp,
-                                color = Color(0xFF0D47A1)
-                            )
-                            if (isEditing) {
-                                TextField(
-                                    value = year,
-                                    onValueChange = { year = it },
-                                    singleLine = true,
-                                    modifier = Modifier.width(150.dp)
-                                )
-                            } else {
-                                Text(year, fontSize = 16.sp, color = Color(0xFF0D47A1))
-                            }
-                        }
-
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
                                 "Phone",
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
@@ -153,6 +131,28 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                                 Text(phone, fontSize = 16.sp, color = Color(0xFF0D47A1))
                             }
                         }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                "Subject",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
+                                color = Color(0xFF0D47A1)
+                            )
+                            if (isEditing) {
+                                TextField(
+                                    value = subject,
+                                    onValueChange = { subject = it },
+                                    singleLine = true,
+                                    modifier = Modifier.width(150.dp)
+                                )
+                            } else {
+                                Text(subject, fontSize = 16.sp, color = Color(0xFF0D47A1))
+                            }
+                        }
                     }
                 }
 
@@ -161,15 +161,14 @@ fun StudentProfileScreen(studentId: Int, modifier: Modifier = Modifier) {
                 Button(
                     onClick = {
                         if (isEditing) {
-                            student?.let { s ->
-                                val updatedStudent = s.copy(
+                            teacher?.let { t ->
+                                val updatedTeacher = t.copy(
                                     name = name,
-                                    year = year,
-                                    phone = phone
+                                    phone = phone,
+                                    subject = subject
                                 )
-
                                 scope.launch {
-                                    repo.updateInformationOfStudent(updatedStudent)
+                                    repo.updateInformationOfTeacher(updatedTeacher)
                                 }
                             }
                         }
