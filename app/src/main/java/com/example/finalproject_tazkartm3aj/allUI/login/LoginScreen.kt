@@ -15,6 +15,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -22,6 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.finalproject_tazkartm3aj.allUI.FakeStudentRepository.FakeStudentRepository
+import com.example.finalproject_tazkartm3aj.repository.studentRep.OfflineStudentRepository
+import com.example.finalproject_tazkartm3aj.repository.studentRep.StudentRepository
 
 @Composable
 fun LoginScreen(
@@ -69,10 +76,14 @@ fun LoginScreen(
 
         Spacer(Modifier.Companion.height(16.dp))
 
+        var showRegisterOption by remember { mutableStateOf(false) }
+
         Button(
             onClick = {
-                viewModel.login()
-                if (viewModel.errorMessage == null) onLoginSuccess()
+                viewModel.login(
+                    onEmailNotFound = { showRegisterOption = true },
+                    onLoginSuccess = onLoginSuccess
+                )
             },
             modifier = Modifier.Companion.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
@@ -84,16 +95,12 @@ fun LoginScreen(
             Text("Login", fontSize = 17.sp)
         }
 
-        TextButton(onClick = onRegisterClick,
-
-            ) {
+        if (showRegisterOption) {
+            TextButton(onClick = onRegisterClick) {
             Text(text = "Don’t have an account? Register" ,
-                color = Color(0xFFF1970E),
-                letterSpacing=1.5.sp,
-                fontSize = 14.sp
-
-
-            )
+                color = Color(0xFFF1970E))
+            
+        }
         }
     }
 }
@@ -102,7 +109,9 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun  PreviewLogin () {
-
-    LoginScreen({ },{}, LoginViewModel())
+    val fakeRepo = FakeStudentRepository()
+    val loginVM = LoginViewModel(fakeRepo)
+    LoginScreen({ },{}, loginVM )
 
 }
+

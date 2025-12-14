@@ -29,6 +29,8 @@ fun RegisterScreen(
     onRegisterSuccess: () -> Unit,
     viewModel: RegisterViewModel = viewModel()
 ) {
+    val error = viewModel.errorMessage
+
     Column(
         modifier = Modifier.Companion
             .fillMaxSize()
@@ -62,7 +64,7 @@ fun RegisterScreen(
             visualTransformation = PasswordVisualTransformation()
         )
 
-        viewModel.errorMessage?.let {
+        error?.let {
             Text(
                 text = it,
                 color = Color.Companion.Red,
@@ -73,9 +75,8 @@ fun RegisterScreen(
         Spacer(Modifier.Companion.height(16.dp))
 
         Button(
-            onClick = { viewModel.register()
-                if (viewModel.errorMessage == null) onRegisterSuccess()
-            },
+            onClick = { viewModel.register{ onRegisterSuccess() } },
+
             modifier = Modifier.Companion.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 contentColor = Color.White,
@@ -99,8 +100,10 @@ fun RegisterScreen(
 @Preview(showBackground = true)
 @Composable
 fun RegisterPreview() {
+    val fakeRepo = com.example.finalproject_tazkartm3aj.allUI.FakeStudentRepository.FakeStudentRepository()
+    val registerVM = RegisterViewModel(fakeRepo)
     RegisterScreen(
         {},
-        {},RegisterViewModel()
+        {},registerVM
     )
 }
