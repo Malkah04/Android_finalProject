@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlaylistAddCircle
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Destination(
@@ -18,7 +19,9 @@ enum class Destination(
 ) {
     HOME("home", "Home", Icons.Default.Home, "Home"),
 
-    ScheduleScreen("ScheduleScreen", "ScheduleScreen", Icons.Default.CoPresent, "Schedules"),
+    Schedule("Schedule", "Schedule", Icons.Default.CoPresent, "Schedules"),
+    BOOKING("booking", "Booking", Icons.Default.Schedule, "Booking"),
+
     NOTIFICATIONS("notifications", "Notifications", Icons.Default.Notifications, "Notifications"),
     PROFILE("profile", "Profile", Icons.Default.Person, "Profile")
 

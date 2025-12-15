@@ -12,6 +12,7 @@ import com.example.finalproject_tazkartm3aj.allUI.register.RegisterScreen
 import com.example.finalproject_tazkartm3aj.allUI.register.RegisterViewModel
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleListVM
 import com.example.finalproject_tazkartm3aj.allUI.scheduleList.ScheduleScreen
+import com.example.finalproject_tazkartm3aj.allUI.screens.BookingScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.HomeScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.NotificationScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.StudentProfileScreen
@@ -58,12 +59,13 @@ fun AppNavGraph(
             composable(destination.route) {
                 when (destination) {
                     Destination.HOME -> HomeScreen()
-                    Destination.ScheduleScreen -> {
+                    Destination.Schedule -> {
                         val scheduleVm: ScheduleListVM =viewModel(
                             factory = ScheduleListVM.factory
                         )
                         ScheduleScreen(scheduleVm)
                     }
+                    Destination.BOOKING -> BookingScreen()
                     Destination.NOTIFICATIONS -> NotificationScreen()
                     Destination.PROFILE -> StudentProfileScreen(1,Modifier)
 
