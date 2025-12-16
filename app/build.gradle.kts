@@ -68,6 +68,15 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     ksp(libs.androidx.room.compiler)
 
+    // Unit Test
+    testImplementation("junit:junit:4.13.2")
+
+// Coroutines testing
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+// For StateFlow testing
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+
     implementation("io.coil-kt:coil-compose:2.5.0")
     androidTestImplementation(libs.androidx.room.testing)
     testImplementation(libs.junit)
@@ -77,4 +86,5 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }
