@@ -34,7 +34,6 @@ import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -62,36 +61,42 @@ import kotlinx.coroutines.flow.first
 @Composable
 fun ScheduleScreen(
     ScheduleVM: ScheduleListVM,
-    isAdmin: Boolean =false
+    isAdmin: Boolean = false,
+    onEditClick: (Int) -> Unit
 ) {
     val schedules by ScheduleVM.scheduleList.collectAsState()
 
-    ScheduleList(schedules = schedules , scheduleListVM = ScheduleVM ,isAdmin =isAdmin)
+
+    ScheduleList(
+        schedules = schedules,
+        scheduleListVM = ScheduleVM,
+        isAdmin = isAdmin,
+        onEditClick = onEditClick
+    )
 }
+
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScheduleList(
     schedules: List<Schedule>,
     scheduleListVM: ScheduleListVM,
     modifier: Modifier = Modifier,
-    isAdmin : Boolean ,
+    isAdmin: Boolean,
+    onEditClick: (Int) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    if(schedules.isEmpty()){
-       EmptyList()
+    if (schedules.isEmpty()) {
+        EmptyList()
         return
     }
+
     val visibleState = remember {
-        MutableTransitionState(false).apply {
-            targetState = true
-        }
+        MutableTransitionState(false).apply { targetState = true }
     }
 
     AnimatedVisibility(
         visibleState = visibleState,
-        enter = fadeIn(
-            animationSpec = spring(dampingRatio = DampingRatioLowBouncy)
-        ),
+        enter = fadeIn(animationSpec = spring(dampingRatio = DampingRatioLowBouncy)),
         exit = fadeOut(),
         modifier = modifier
     ) {
@@ -101,8 +106,9 @@ fun ScheduleList(
                 itemsIndexed(schedules) { index, schedule ->
                     TeacherListItem(
                         schedule = schedule,
-                        scheduleListVM,
+                        scheduleListVM = scheduleListVM,
                         isAdmin = isAdmin,
+                        onEditClick = { onEditClick(schedule._id) },
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp)
                             .animateEnterExit(
@@ -126,6 +132,7 @@ fun TeacherListItem(
     schedule: Schedule,
     scheduleListVM: ScheduleListVM,
     isAdmin: Boolean,
+    onEditClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var teacherName by remember { mutableStateOf("Loading...") }
@@ -147,17 +154,17 @@ fun TeacherListItem(
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
         if (isAdmin) {
-
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
-                    onClick = {},
+                    onClick = { onEditClick() },
                     colors = buttonColors(containerColor = Color(0xFFF1970E))
                 ) {
                     Icon(Icons.Default.Edit, contentDescription = "Edit", tint = Color.White)
                     Spacer(Modifier.width(4.dp))
                 }
 
-                Spacer(modifier= Modifier.width(100.dp).fillMaxWidth())
+                Spacer(modifier = Modifier.weight(1f))
+
                 Button(
                     onClick = { scheduleListVM.deleteSchedule(schedule._id) },
                     colors = buttonColors(containerColor = Color.Red)
@@ -167,6 +174,7 @@ fun TeacherListItem(
                 }
             }
         }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()

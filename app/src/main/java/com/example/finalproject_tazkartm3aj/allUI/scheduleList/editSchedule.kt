@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -14,20 +15,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.finalproject_tazkartm3aj.model.Schedule
 
 
 @Composable
-fun Edit(schedule: Schedule ,scheduleListVM: ScheduleListVM){
-
+fun Edit(
+    schedule: Schedule,
+    scheduleListVM: ScheduleListVM,
+    navController: NavHostController
+) {
     var subject by remember { mutableStateOf(schedule.subject) }
     var day by remember { mutableStateOf(schedule.day) }
     var time by remember { mutableStateOf(schedule.time) }
     var centerId by remember { mutableStateOf(schedule.centerId.toString()) }
     var teacherId by remember { mutableStateOf(schedule.teacherId.toString()) }
 
-
-    Column {
+    Column(modifier = Modifier.padding(16.dp)) {
         TextField(subject, { subject = it }, label = { Text("Subject") }, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(16.dp))
 
@@ -52,9 +56,9 @@ fun Edit(schedule: Schedule ,scheduleListVM: ScheduleListVM){
                 teacherId = teacherId.toIntOrNull() ?: schedule.teacherId
             )
             scheduleListVM.editSchedule(updatedSchedule)
+            navController.popBackStack()
         }) {
             Text("Save")
         }
     }
-
 }

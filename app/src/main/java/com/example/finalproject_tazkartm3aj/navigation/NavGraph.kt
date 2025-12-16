@@ -1,5 +1,6 @@
 package com.example.finalproject_tazkartm3aj.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -80,7 +81,13 @@ fun AppNavGraph(
                     Destination.BOOKING -> if (!isAdmin) BookingScreen()
                     Destination.Schedule -> {
                         val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
-                        ScheduleScreen(isAdmin = isAdmin, ScheduleVM = scheduleVm)
+                        ScheduleScreen(
+                            isAdmin = isAdmin,
+                            ScheduleVM = scheduleVm,
+                            onEditClick = { scheduleId ->
+                                navController.navigate("edit_schedule/$scheduleId")
+                            }
+                        )
                     }
                     Destination.ADDCENTER -> if (isAdmin) {
                         val vm: AddCenterVM = viewModel(factory = AddCenterVM.factory)
@@ -98,5 +105,17 @@ fun AppNavGraph(
                 }
             }
         }
+        composable("edit_schedule/{scheduleId}") { backStackEntry ->
+            val scheduleVm: ScheduleListVM = viewModel(factory = ScheduleListVM.factory)
+            val scheduleId = backStackEntry.arguments?.getString("scheduleId")?.toIntOrNull()
+            val schedule = scheduleVm.getScheduleById(scheduleId ?: -1)
+
+            if (schedule != null) {
+                Edit(schedule = schedule, scheduleListVM = scheduleVm, navController = navController)
+            } else {
+                Text("Schedule not found")
+            }
+        }
+
     }
 }
