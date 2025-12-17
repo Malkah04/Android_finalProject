@@ -15,6 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject_tazkartm3aj.allUI.login.LoginViewModel
 import com.example.finalproject_tazkartm3aj.allUI.navBar.AppNavigationBar
+import com.example.finalproject_tazkartm3aj.api.UserViewModel
+import com.example.finalproject_tazkartm3aj.api.UsersScreen
 import com.example.finalproject_tazkartm3aj.ui.theme.FinalProjecttazkartM3ajTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val loginViewModel: LoginViewModel = viewModel(factory = LoginViewModel.factory)
                 AppNavigationBar(isAdmin= loginViewModel.Admin ,Modifier)
+
             }
         }
     }

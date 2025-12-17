@@ -25,6 +25,10 @@ import com.example.finalproject_tazkartm3aj.allUI.screens.BookingScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.NotificationScreen
 import com.example.finalproject_tazkartm3aj.allUI.screens.StudentProfileScreen
 import com.example.finalproject_tazkartm3aj.allUI.singleSchedulePage.SinglePage
+import com.example.finalproject_tazkartm3aj.api.NetworkModule
+import com.example.finalproject_tazkartm3aj.api.UserRepository
+import com.example.finalproject_tazkartm3aj.api.UserViewModel
+import com.example.finalproject_tazkartm3aj.api.UsersScreen
 
 @Composable
 fun AppNavGraph(
@@ -86,7 +90,11 @@ fun AppNavGraph(
                         navController = navController
 
                         )
-                    Destination.NOTIFICATIONS -> if (!isAdmin) NotificationScreen()
+                    Destination.NOTIFICATIONS -> if (!isAdmin) {
+                        val userViewModel: UserViewModel = viewModel(factory = UserViewModel.provideFactory())
+                        UsersScreen(userViewModel)
+                    }
+
                     Destination.PROFILE -> {
                         StudentProfileScreen(
                             email = loginViewModel.loggedInEmail ?: "",
