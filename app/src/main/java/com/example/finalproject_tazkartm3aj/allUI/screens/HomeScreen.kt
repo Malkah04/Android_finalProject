@@ -79,8 +79,8 @@ fun SubjectsSection(subjects: List<SubjectUI>, onSubjectSelected: (SubjectUI) ->
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
@@ -101,7 +101,9 @@ fun SubjectCard(subject: SubjectUI, onSubjectClick: (Int) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
-            .clickable { onSubjectClick(subject.id) },
+            .clickable { onSubjectClick(subject.id) }
+            .padding(6.dp),
+
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
             containerColor = subject.color

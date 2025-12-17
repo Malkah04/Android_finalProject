@@ -11,8 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 
 @Composable
 fun AddSchedulePage(
@@ -99,27 +102,34 @@ fun AddSchedulePage(
 
         Spacer(Modifier.height(24.dp))
 
+        val context = LocalContext.current
+
+
         Button(
-            onClick = {
-                vm.addScheduleIfValid(
-                    subject,
-                    day,
-                    time,
-                    centerId,
-                    teacherId,
-                    imageUri
-                )
-            },
-            colors = buttonColors(containerColor = Color(0xFFF1970E)),
-            enabled = !vm.isProcessing.value &&
-                    subject.isNotBlank() &&
-                    day.isNotBlank() &&
-                    time.isNotBlank() &&
-                    centerId.isNotBlank() &&
-                    teacherId.isNotBlank()
-        ) {
-            Text("Add Schedule")
-        }
+                    onClick = {
+                        vm.addScheduleIfValid(
+                            subject,
+                            day,
+                            time,
+                            centerId,
+                            teacherId,
+                            imageUri
+                        )
+
+                        // شغل WorkManager بعد الإضافة
+                        val workRequest = OneTimeWorkRequestBuilder<AddScheduleWorker>().build()
+                        WorkManager.getInstance(context).enqueue(workRequest)
+                    },
+                    colors = buttonColors(containerColor = Color(0xFFF1970E)),
+                    enabled = !vm.isProcessing.value &&
+                            subject.isNotBlank() &&
+                            day.isNotBlank() &&
+                            time.isNotBlank() &&
+                            centerId.isNotBlank() &&
+                            teacherId.isNotBlank()
+                ) {
+                    Text("Add Schedule")
+                }
 
         if (state.isNotEmpty()) {
             Text(
