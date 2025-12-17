@@ -23,7 +23,7 @@ enum class Destination(
     HOME("home", "Home", Icons.Default.Home, "Home"),
 
     Schedule("Schedule", "Schedule", Icons.Default.CoPresent, "Schedules"),
-    BOOKING("booking", "Booking", Icons.Default.Schedule, "Booking"),
+//    BOOKING("booking", "Booking", Icons.Default.Schedule, "Booking"),
 
     TeacherList("taecherlist", "TeacherList", Icons.Default.AccountBox, "TeacherList"),
     PROFILE("profile", "Profile", Icons.Default.Person, "Profile"),
