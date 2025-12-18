@@ -93,6 +93,17 @@ Stores teachers, bookings, and schedules locally with full CRUD support.
 
 ---
 
+## 🔗 APK Download
+
+You can preview and install the application using the APK from the link below:
+
+👉 **APK Download Link:**  
+https://www.upload-apk.com/m56UF7oAPudT1Vm
+
+> ⚠️ Make sure to enable **Install from Unknown Sources** on your Android device.
+
+---
+
 ## 👥 Team Members
 
 - **Malak SObhy** – Android Developer
